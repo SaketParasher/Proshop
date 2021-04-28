@@ -2,6 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 
 const productRoutes = require('./routes/product');
+const userRoutes = require('./routes/user');
+const orderRoutes = require('./routes/order');
 const { globalErrorHandler,notFoundHandler } = require('./middlewares/errorHandler');
 
 const products = require('./data/products');
@@ -13,11 +15,16 @@ dotenv.config();
 //connect DB
 connectDB();
 
+//to get req.body
+app.use(express.json())
+
 app.get("/",(req,res,next) => {
     res.send("API Responding...");
 });
 
 app.use("/api/product",productRoutes);
+app.use("/api/user",userRoutes);
+app.use("/api/order",orderRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
